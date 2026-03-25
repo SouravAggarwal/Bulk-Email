@@ -1,30 +1,28 @@
-EMAIL_SUBJECT_TEMPLATE = "[Your Job Title] | [Key Skill 1], [Key Skill 2], [Key Skill 3]"
+EMAIL_SUBJECT_TEMPLATE = "[Subject of Your Email]"
 
 EMAIL_BODY_TEMPLATE = """\
-Hello Hiring Manager/Team,
+Hello {recipient_name},
 
-I hope you're having a great week!
+I hope this email finds you well!
 
-I'm reaching out to express my strong interest in [Target Role] opportunities within your team.
+[Your Main Message / Value Proposition / Introduction goes here]. I am reaching out to share [Purpose of Email].
 
-I am a [Current Job Title] with [X]+ years of experience building [Skill Area 1], [Skill Area 2], and [Skill Area 3]. I have worked extensively on [Domain/System Type], including leading [Key Achievement 1] and building [Key Achievement 2].
+[Additional details, updates, or context regarding why you are reaching out].
 
-My career highlights include:
-- [Area 1]: [Achievement/Metric 1]
-- [Area 2]: [Achievement/Metric 2]
-- [Area 3]: [Achievement/Metric 3]
-- Tech Stack Expertise: [Language 1], [Language 2], [Framework 1], [Cloud Platform].
+Key Highlights:
+- [Highlight 1]: [Metric / Detail 1]
+- [Highlight 2]: [Metric / Detail 2]
+- [Highlight 3]: [Metric / Detail 3]
 
-For more details about my professional journey, please find my links below, and my detailed resume attached.
+For more details, please visit our links below, and find the relevant document attached.
 
-LinkedIn: [Your LinkedIn Profile URL]
-GitHub: [Your GitHub Profile URL]
-Resume (External Link): [Your External Link, e.g., Google Drive]
+Main Website: [Your Primary Link]
+Secondary Resource: [Your Secondary Link]
 
-Looking forward to the possibility of collaborating.
+Looking forward to connecting with you.
 
 Best regards,
-[Your First Name] [Your Last Name]
+[Your Name / Company Name]
 """
 
 EMAIL_HTML_TEMPLATE = """\
@@ -129,41 +127,39 @@ EMAIL_HTML_TEMPLATE = """\
 <body>
     <div class="container">
         <div class="header">
-            <h1>[Your First Name] [Your Last Name]</h1>
-            <p>[Your Title] | [Key Skill 1] & [Key Skill 2]</p>
+            <h1>[Your Name / Company Name]</h1>
+            <p>[Your Slogan / Title]</p>
         </div>
         
         <div class="content">
             <p class="greeting">Hello {recipient_name},</p>
             
-            <p>I hope you're having a great week!</p>
+            <p>I hope this email finds you well!</p>
             
-            <p>I'm reaching out to express my strong interest in [Target Role] opportunities within your team.</p>
+            <p>[Your Main Message / Value Proposition / Introduction goes here]. I am reaching out to share [Purpose of Email].</p>
             
-            <p>I am a [Current Job Title] with <strong>[X]+ years of experience</strong> building [Skill Area 1], [Skill Area 2], and [Skill Area 3]. I have worked extensively on [Domain/System Type], including leading [Key Achievement 1] and building [Key Achievement 2].</p>
+            <p>[Additional details, updates, or context regarding why you are reaching out].</p>
             
-            <p><strong>Key Career Highlights:</strong></p>
+            <p><strong>Key Highlights:</strong></p>
             <ul class="skills-list">
-                <li><strong>[Area 1]:</strong> [Achievement/Metric 1]</li>
-                <li><strong>[Area 2]:</strong> [Achievement/Metric 2]</li>
-                <li><strong>[Area 3]:</strong> [Achievement/Metric 3]</li>
-                <li><strong>Technology Stack:</strong> Fluent in [Language 1], [Language 2], [Framework 1], combined with [Cloud Platform].</li>
+                <li><strong>[Highlight 1]:</strong> [Metric / Detail 1]</li>
+                <li><strong>[Highlight 2]:</strong> [Metric / Detail 2]</li>
+                <li><strong>[Highlight 3]:</strong> [Metric / Detail 3]</li>
             </ul>
             
             <div class="cta-container">
-                <a href="[Your External Link, e.g., Google Drive]" class="button">View Online Resume</a>
-                <a href="[Your LinkedIn Profile URL]" class="button-outline">LinkedIn Profile</a>
-                <a href="[Your GitHub Profile URL]" class="button-outline">GitHub Portfolio</a>
+                <a href="[Your Primary Link]" class="button">Visit Our Website</a>
+                <a href="[Your Secondary Link]" class="button-outline">View Resources</a>
             </div>
             
-            <p>I have also attached a PDF copy of my resume for your convenience.</p>
+            <p>I have also attached a relevant PDF document for your convenience.</p>
             
             <div class="footer">
-                <p>Looking forward to hearing from you.</p>
+                <p>Looking forward to connecting with you.</p>
                 <div class="signature">
                     <p style="margin-bottom: 2px;">Best regards,</p>
-                    <p class="signature-name">[Your First Name] [Your Last Name]</p>
-                    <p style="margin-top: 0; color: #2a5298;">[Your Phone] | [Your Email]</p>
+                    <p class="signature-name">[Your Name / Company Name]</p>
+                    <p style="margin-top: 0; color: #2a5298;">[Your Contact Info]</p>
                 </div>
             </div>
         </div>
@@ -172,7 +168,7 @@ EMAIL_HTML_TEMPLATE = """\
 </html>
 """
 
-def get_email_content(recipient_name="Hiring Manager/Team"):
+def get_email_content(recipient_name="Recipient"):
     """
     Generates the subject, plain text body, and html body for the email.
     """

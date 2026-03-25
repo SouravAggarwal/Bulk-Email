@@ -1,11 +1,11 @@
-# Automated Job Application Email System
+# Automated Bulk Email System
 
-A robust, production-ready backend system built in Python to read candidate/recruiter email addresses from an Excel file, iteratively send a customized, highly-professional job application email (using both plain-text and custom HTML templates), and log the delivery status to an output Excel file.
+A robust, production-ready backend system built in Python to read recipient email addresses from an Excel file, iteratively send a customized, professional email (using both plain-text and custom HTML templates), and log the delivery status to an output Excel file.
 
 ## Features
 - **Batch Email Sending**: Parse an Excel file and cleanly iterate over it to send emails.
 - **Dual-Format Templates**: Automatically sends a `MIMEMultipart` email containing both a fallback plain-text body and a styling-rich HTML body.
-- **Dynamic PDF Attachments**: Automatically scans the `data/` directory and attaches your resume securely.
+- **Dynamic PDF Attachments**: Automatically scans the `data/` directory and attaches your PDF document securely.
 - **Config-Driven**: Environment variables control sensitive credentials and operational parameters.
 - **Data Validation**: Automatically ignores duplicates and invalid email formats.
 - **Self-Healing Retries**: Retries up to a configured threshold if sending fails before logging as FAILED.
@@ -44,7 +44,7 @@ If you are using a standard Gmail account to send these emails, **you cannot use
 1. Enable **2-Step Verification** for your Google Account.
 2. Go to your Google Account Settings -> **Security**.
 3. Under the "How you sign in to Google" section, search for **App passwords**.
-4. Give the app a custom name (e.g., "Python Job Scraper" or "Bulk Email").
+4. Give the app a custom name (e.g., "Python Bulk Email").
 5. Click **Generate**.
 6. Google will provide a **16-character password**. Copy this and paste it directly into your `.env` file under `SENDER_PASSWORD`. *(Note: Ignore the spaces when copying).*
 
@@ -53,7 +53,7 @@ If you are using a standard Gmail account to send these emails, **you cannot use
 ## 💡 How to Use
 
 ### Step 1: Prepare Your Recipient Data
-Place your list of target recruiter/hiring manager emails in an Excel file at `data/input_emails.xlsx`. 
+Place your list of target recipient emails in an Excel file at `data/input_emails.xlsx`. 
 - **Requirement:** The file must contain at least one column titled exactly `email`. 
 - *Tip: If you want to test the system first without creating a list, run `python generate_sample.py` to auto-generate a mock file with valid and invalid dummy emails.*
 
@@ -63,10 +63,10 @@ Open `email_templates.py`. This file contains three generic templates:
 2. `EMAIL_BODY_TEMPLATE`: The fallback plain-text version of your email.
 3. `EMAIL_HTML_TEMPLATE`: A premium, professionally designed HTML version of your email.
 
-**Action needed**: Replace all the generic bracketed placeholders (e.g., `[Your Name]`, `[Your LinkedIn Profile URL]`, `[Target Role]`) with your actual personal details, professional highlights, and links.
+**Action needed**: Replace all the generic bracketed placeholders (e.g., `[Your Name]`, `[Your Main Message]`) with your actual content and links.
 
-### Step 3: Attach Your Resume
-Simply drop your Resume PDF file into the `data/` directory. 
+### Step 3: Attach Your Document
+Simply drop your target PDF file into the `data/` directory. 
 The system (`email_sender.py`) will automatically scan this folder, find the first `.pdf` file, and securely attach it to every outbound email.
 
 ### Step 4: Run the Engine
