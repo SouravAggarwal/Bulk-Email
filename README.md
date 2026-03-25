@@ -43,7 +43,7 @@ If you are using a standard Gmail account to send these emails, **you cannot use
 
 1. Enable **2-Step Verification** for your Google Account.
 2. Go to your Google Account Settings -> **Security**.
-3. Under the "How you sign in to Google" section, search for **App passwords**.
+3. Under the "How you sign in to Google" section, search for **App passwords** (https://myaccount.google.com/apppasswords).
 4. Give the app a custom name (e.g., "Python Bulk Email").
 5. Click **Generate**.
 6. Google will provide a **16-character password**. Copy this and paste it directly into your `.env` file under `SENDER_PASSWORD`. *(Note: Ignore the spaces when copying).*
