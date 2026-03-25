@@ -1,59 +1,80 @@
 # Automated Job Application Email System
 
-A robust, production-ready backend system built in Python to read candidate/recruiter email addresses from an Excel file, iteratively send a customized job application email, and log the delivery status (Success/Failed) to an output Excel file.
+A robust, production-ready backend system built in Python to read candidate/recruiter email addresses from an Excel file, iteratively send a customized, highly-professional job application email (using both plain-text and custom HTML templates), and log the delivery status to an output Excel file.
 
 ## Features
 - **Batch Email Sending**: Parse an Excel file and cleanly iterate over it to send emails.
+- **Dual-Format Templates**: Automatically sends a `MIMEMultipart` email containing both a fallback plain-text body and a styling-rich HTML body.
+- **Dynamic PDF Attachments**: Automatically scans the `data/` directory and attaches your resume securely.
 - **Config-Driven**: Environment variables control sensitive credentials and operational parameters.
 - **Data Validation**: Automatically ignores duplicates and invalid email formats.
 - **Self-Healing Retries**: Retries up to a configured threshold if sending fails before logging as FAILED.
-- **Rate-Limiting Built In**: Respects strict rate limits using artificial delays to reduce the chance of spam blocking.
+- **Rate-Limiting Built In**: Respects strict rate limits using artificial delays to reduce the chance of spam blocking by ESPs.
 - **Audit Logging**: Keeps an exact timestamped record of every email attempted and its outcome.
 
-## Setup Requirements
+---
 
-1. **Python version**: Python 3.8+ recommended.
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+## 🚀 Setup Requirements
 
-3. **Configure Environment Variables**:
-   Copy the example config and edit it with your credentials.
-   ```bash
-   cp .env.example .env
-   ```
-   *Edit `.env` to include your actual `SENDER_EMAIL` and `SENDER_PASSWORD`.*
+### 1. Prerequisites
+- **Python Version**: Python 3.8+ is recommended.
+- Git installed on your system.
 
-### Gmail App Password Setup (Important)
-If you are using a standard Gmail account to send these emails, you cannot use your standard login password due to security restrictions. You must use an App Password:
+### 2. Installation
+Clone this repository and install the required dependencies:
+```bash
+git clone https://github.com/YourUsername/Bulk-Email.git
+cd Bulk-Email
+pip install -r requirements.txt
+```
+
+### 3. Environment Configuration
+Copy the provided example `.env` file to create your local `.env`. 
+```bash
+cp .env.example .env
+```
+Open `.env` and configure your settings:
+*   `SENDER_EMAIL`: Your full email address (e.g., `you@gmail.com`).
+*   `SENDER_PASSWORD`: Your unique App Password (see instructions below).
+*   `DELAY_BETWEEN_EMAILS_SECONDS`: Rate limit delay (default 5 seconds).
+
+#### ⚠️ Gmail App Password Setup (CRITICAL)
+If you are using a standard Gmail account to send these emails, **you cannot use your standard login password** due to Google's strict security restrictions. You must generate a dedicated App Password:
 
 1. Enable **2-Step Verification** for your Google Account.
-2. Go to your Google Account -> **Security**.
-3. Under "Signing in to Google", select **2-Step Verification**.
-4. Scroll to the bottom and click on **App passwords**.
-5. Select "Mail" for the app and "Other (Custom name)" for the device (e.g. "Python Script").
-6. Click **Generate** and copy the 16-character password.
-7. Paste this password generated into your `.env` file under `SENDER_PASSWORD`.
+2. Go to your Google Account Settings -> **Security**.
+3. Under the "How you sign in to Google" section, search for **App passwords**.
+4. Give the app a custom name (e.g., "Python Job Scraper" or "Bulk Email").
+5. Click **Generate**.
+6. Google will provide a **16-character password**. Copy this and paste it directly into your `.env` file under `SENDER_PASSWORD`. *(Note: Ignore the spaces when copying).*
 
-## How to use
+---
 
-1. Place your list of target emails in Excel form at `data/input_emails.xlsx` with at least one column titled `email`. (You can run `python generate_sample.py` to create a mock file automatically).
-2. Tweak your email subject and body in `email_templates.py` if necessary.
-3. Run the orchestration script:
-   ```bash
-   python main.py
-   ```
-4. Examine the `data/log.xlsx` file after completion to view success and failures.
+## 💡 How to Use
 
-## Adding Resume Attachments
-To attach a resume:
-1. Update `email_sender.py`.
-2. Import `from email.mime.application import MIMEApplication` and `import os`.
-3. Add logic to read the file and attach it to the `msg` object before sending:
-```python
-with open("resume.pdf", "rb") as f:
-    part = MIMEApplication(f.read(), Name=os.path.basename("resume.pdf"))
-part['Content-Disposition'] = f'attachment; filename="resume.pdf"'
-msg.attach(part)
+### Step 1: Prepare Your Recipient Data
+Place your list of target recruiter/hiring manager emails in an Excel file at `data/input_emails.xlsx`. 
+- **Requirement:** The file must contain at least one column titled exactly `email`. 
+- *Tip: If you want to test the system first without creating a list, run `python generate_sample.py` to auto-generate a mock file with valid and invalid dummy emails.*
+
+### Step 2: Customize Your Templates
+Open `email_templates.py`. This file contains three generic templates:
+1. `EMAIL_SUBJECT_TEMPLATE`: The subject line.
+2. `EMAIL_BODY_TEMPLATE`: The fallback plain-text version of your email.
+3. `EMAIL_HTML_TEMPLATE`: A premium, professionally designed HTML version of your email.
+
+**Action needed**: Replace all the generic bracketed placeholders (e.g., `[Your Name]`, `[Your LinkedIn Profile URL]`, `[Target Role]`) with your actual personal details, professional highlights, and links.
+
+### Step 3: Attach Your Resume
+Simply drop your Resume PDF file into the `data/` directory. 
+The system (`email_sender.py`) will automatically scan this folder, find the first `.pdf` file, and securely attach it to every outbound email.
+
+### Step 4: Run the Engine
+Execute the main orchestration script:
+```bash
+python main.py
 ```
+The console will output the progress live as it navigates the list, waits for the configured rate-limit delay, and processes the queue.
+
+### Step 5: Review the Logs
+After completion, examine the `data/log.xlsx` file. It will contain an exact audit history of every email attempted, the timestamp, and whether it succeeded (`SUCCESS`) or failed (`FAILED`).

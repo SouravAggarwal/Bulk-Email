@@ -27,18 +27,20 @@ def send_email(to_email, subject, plain_body, html_body, max_retries=MAX_RETRIES
     alt_part.attach(MIMEText(html_body, 'html'))
     msg.attach(alt_part)
     
-    # Attach the PDF resume
-    resume_path = os.path.join(DATA_DIR, "Sourav Aggarwal's Resume.pdf")
-    if os.path.exists(resume_path):
+    # Attach the PDF resume if one exists
+    pdf_files = [f for f in os.listdir(DATA_DIR) if f.lower().endswith('.pdf')]
+    if pdf_files:
+        resume_name = pdf_files[0]
+        resume_path = os.path.join(DATA_DIR, resume_name)
         try:
             with open(resume_path, "rb") as f:
-                pdf_part = MIMEApplication(f.read(), Name=os.path.basename(resume_path))
-            pdf_part['Content-Disposition'] = f'attachment; filename="{os.path.basename(resume_path)}"'
+                pdf_part = MIMEApplication(f.read(), Name=resume_name)
+            pdf_part['Content-Disposition'] = f'attachment; filename="{resume_name}"'
             msg.attach(pdf_part)
         except Exception as e:
             print(f"Warning: Failed to attach resume from {resume_path}. Error: {e}")
     else:
-        print(f"Warning: Resume not found at {resume_path}. Sending without attachment.")
+        print("Warning: No PDF resume found in the data/ directory. Sending without attachment.")
     
     retries = 0
     while retries < max_retries:
